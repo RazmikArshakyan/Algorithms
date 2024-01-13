@@ -6,12 +6,15 @@
 #include <vector>
 #include <queue>
 #include <stack>
+#include <array>
 
 class Graph {
 public:  
     Graph(int vertices);
+    ~Graph();
     void add_edge(int u, int w);
     void print_adj_list() const;
+    void print_adj_matrix() const;
     void bfs(int v);
     void dfs(int v);
     void dfs_it(int v);
@@ -24,6 +27,7 @@ public:
 private:
     int vertices;
     std::forward_list<int>* adjacency_list;
+    bool** adjacency_matrix;  
 
     void no_print_dfs(int v, std::vector<bool>& visited);
     void dfs(int v, std::vector<bool>& visited);
