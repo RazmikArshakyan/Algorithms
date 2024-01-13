@@ -4,12 +4,32 @@ Graph::Graph(int vertices)
     : vertices{vertices}
 {
     adjacency_list = new std::forward_list<int>[vertices];
+
+    adjacency_matrix = new bool*[vertices]();
+    for (int i = 0; i < vertices; ++i) {
+        adjacency_matrix[i] = new bool[vertices]();
+    }
+}
+
+inline Graph::~Graph()
+{
+    delete[] adjacency_list;
+
+    for (int i = 0; i < vertices; ++i)
+        delete adjacency_matrix[i];
+    
+    delete[] adjacency_matrix;
 }
 
 inline void Graph::add_edge(int u, int w)
 {
+    // for adjacency_list
     adjacency_list[u].push_front(w);
     adjacency_list[w].push_front(u); // for undirected graphs
+
+    // for adjacency_matrix
+    adjacency_matrix[u][w] = true;
+    adjacency_matrix[w][u] = true; // for undirected graphs
 }
 
 inline void Graph::print_adj_list() const
@@ -18,6 +38,23 @@ inline void Graph::print_adj_list() const
         std::cout << "Vertex " << i << " - ";
         for (int edge : adjacency_list[i]) {
             std::cout << edge << " ";
+        }
+        std::cout << std::endl;
+    }
+}
+
+inline void Graph::print_adj_matrix() const
+{
+    std::cout << "V/E ";
+    for (int i = 0; i < vertices; ++i)
+        std::cout << i << " ";
+    
+    std::cout << std::endl;
+        
+    for (int i = 0; i < vertices; ++i) {
+        std::cout << i << " : ";
+        for (int j = 0; j < vertices; ++j) {
+            std::cout << adjacency_matrix[i][j] << " ";
         }
         std::cout << std::endl;
     }
