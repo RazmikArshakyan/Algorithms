@@ -67,12 +67,21 @@ int main() {
 
     std::cout << g3.count_of_connected_components(); 
     
-    std::cout << "\nAnother test of connected components\nCount of connected componenets";
-    Graph g4(5);
+    std::cout << "\nAnother test of connected components\nCount of connected componenets ";
+    Graph g4(6);
     g4.add_edge(0, 1);
     g4.add_edge(0, 3);
     g4.add_edge(4, 2);
 
     std::cout << g4.count_of_connected_components();
-     
+    std::cout << std::endl;
+
+    std::cout << "Printing adjacency matrix of graph\n";
+    Graph g5(4);
+    g5.add_edge(0, 1);
+    g5.add_edge(1, 2);
+    g5.add_edge(1, 3);
+    g5.add_edge(2, 3);
+
+    g5.print_adj_matrix(); 
 }
