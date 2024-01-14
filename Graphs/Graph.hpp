@@ -23,12 +23,16 @@ public:
     int count_nodes(int src, int level);
     std::vector<std::vector<int>> all_paths(int src, int dest);
     int count_of_connected_components();
+    bool is_cyclic_undirected();
+    bool is_cyclic_directed();
 
 private:
     int vertices;
     std::forward_list<int>* adjacency_list;
     bool** adjacency_matrix;  
 
+    bool is_cyclic_undirected(int v, std::vector<bool>& visited, int parent = 0);
+    bool is_cyclic_directed(int v, std::vector<bool>& visited, int parent = 0);
     void no_print_dfs(int v, std::vector<bool>& visited);
     void dfs(int v, std::vector<bool>& visited);
     void all_paths(int src, int dest, std::vector<bool>& visited,
