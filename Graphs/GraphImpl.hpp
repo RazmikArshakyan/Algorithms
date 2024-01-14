@@ -25,7 +25,7 @@ inline void Graph::add_edge(int u, int w)
 {
     // for adjacency_list
     adjacency_list[u].push_front(w);
-    adjacency_list[w].push_front(u); // for undirected graphs
+    // adjacency_list[w].push_front(u); // for undirected graphs
 
     // for adjacency_matrix
     adjacency_matrix[u][w] = true;
@@ -192,7 +192,7 @@ inline void Graph::all_paths(int src, int dest, std::vector<bool>& visited,
         visited = std::vector<bool>(vertices, false);
 
     if (visited[src])
-        return;
+       return;
     
     if (src == dest) {
         path.push_back(src);
@@ -234,4 +234,53 @@ inline int Graph::count_of_connected_components()
     }
 
     return count;
+}
+
+inline bool Graph::is_cyclic_undirected(int v, std::vector<bool> &visited, int parent)
+{
+    visited[v] = true;
+
+    for (auto vertex : adjacency_list[v]) {
+        if (!visited[vertex]) {
+            if (is_cyclic_undirected(vertex, visited, v))
+                return true;
+        }
+        else {
+            if (vertex != parent) 
+                return true;
+        }
+    }
+
+    return false;
+}
+
+inline bool Graph::is_cyclic_directed(int v, std::vector<bool> &visited, int parent)
+{
+    visited[v] = true;
+    //visited[parent] = false;
+
+    for (auto vertex : adjacency_list[v]) {
+        if (!visited[vertex]) {
+            if (is_cyclic_directed(vertex, visited, v))
+                return true;
+        }
+        else  {
+            if (parent != vertex)
+                return true;
+        }
+    }
+
+    return false;
+}
+
+inline bool Graph::is_cyclic_undirected()
+{
+    std::vector<bool> visited(vertices, false);
+    return is_cyclic_undirected(0, visited);
+}
+
+inline bool Graph::is_cyclic_directed()
+{
+    std::vector<bool> visited(vertices, false);
+    return is_cyclic_directed(0, visited);
 }
