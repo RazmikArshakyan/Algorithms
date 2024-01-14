@@ -54,7 +54,6 @@ int main() {
     g2.add_edge(4, 2);
     g2.add_edge(2, 5);
 
-
     std::cout << "Counting nodes at src ";
     std::cout << g2.count_nodes(0, 2);
     std::cout << std::endl;
@@ -83,5 +82,54 @@ int main() {
     g5.add_edge(1, 3);
     g5.add_edge(2, 3);
 
-    g5.print_adj_matrix(); 
+    g5.print_adj_matrix();
+
+    std::cout << "Checking if we have cycle in undirected graph ";
+    Graph g6(4);
+    g6.add_edge(0, 1);
+    g6.add_edge(0, 2);
+    g6.add_edge(1, 3);
+    g6.add_edge(2, 3);
+    
+    std::cout << g6.is_cyclic_undirected();
+
+    std::cout << "\nAnother check\n";
+    std::cout << "Checking if we have cycle in undirected graph ";
+    Graph g7(5);
+    g7.add_edge(0, 1);
+    g7.add_edge(1, 4);
+    g7.add_edge(1, 3);
+    g7.add_edge(2, 3);
+    g7.add_edge(2, 4);
+    
+    std::cout << g7.is_cyclic_undirected();
+
+    std::cout << "\nAnother check\n";
+    std::cout << "Checking if we have cycle in undirected graph ";
+    Graph g8(4);
+    g8.add_edge(0, 1);
+    g8.add_edge(0, 3);
+    g8.add_edge(1, 2);
+    
+    std::cout << g8.is_cyclic_undirected();
+    
+    std::cout << "\nChecking if we have cycle in directed graph ";
+    Graph g9(4);
+    g9.add_edge(0, 2);
+    g9.add_edge(2, 3);
+    g9.add_edge(3, 1);
+    g9.add_edge(1, 0);
+
+    std::cout << g9.is_cyclic_directed();
+
+    std::cout << "\nAnother check\n";
+    std::cout << "\nChecking if we have cycle in directed graph ";
+    Graph g10(5);
+    g10.add_edge(0, 1);
+    g10.add_edge(1, 2);
+    g10.add_edge(1, 3);
+    g10.add_edge(2, 4);
+    g10.add_edge(3, 4);
+
+    std::cout << g10.is_cyclic_directed();
 }
