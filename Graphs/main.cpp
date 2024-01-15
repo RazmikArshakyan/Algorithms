@@ -123,7 +123,7 @@ int main() {
     std::cout << g9.is_cyclic_directed();
 
     std::cout << "\nAnother check\n";
-    std::cout << "\nChecking if we have cycle in directed graph ";
+    std::cout << "Checking if we have cycle in directed graph ";
     Graph g10(5);
     g10.add_edge(0, 1);
     g10.add_edge(1, 2);
@@ -132,4 +132,31 @@ int main() {
     g10.add_edge(3, 4);
 
     std::cout << g10.is_cyclic_directed();
+
+    std::cout << "\nSorting graph in topological order\n";
+    Graph g11(5);
+    g11.add_edge(0, 1);
+    g11.add_edge(1, 2);
+    g11.add_edge(2, 3);
+    g11.add_edge(3, 4);
+    g11.add_edge(4, 1);
+
+    std::vector<int> ts1 = g11.topological_sort();
+    for (auto it : ts1)
+        std::cout << it;
+
+    std::cout << "\nAnother example\n";
+    std::cout << "Sorting graph in topological order\n";
+    Graph g12(6);
+    g12.add_edge(0, 1);
+    g12.add_edge(0, 2);
+    g12.add_edge(2, 3);
+    g12.add_edge(3, 1);
+    g12.add_edge(1, 4);
+    g12.add_edge(3, 4);
+    g12.add_edge(4, 5);
+
+    std::vector<int> ts2 = g12.topological_sort();
+    for (auto elem : ts2)
+        std::cout << elem  << " ";
 }
