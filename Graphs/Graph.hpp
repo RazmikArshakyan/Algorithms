@@ -25,6 +25,7 @@ public:
     int count_of_connected_components();
     bool is_cyclic_undirected();
     bool is_cyclic_directed();
+    std::vector<int> topological_sort();
 
 private:
     int vertices;
@@ -32,11 +33,12 @@ private:
     bool** adjacency_matrix;  
 
     bool is_cyclic_undirected(int v, std::vector<bool>& visited, int parent = 0);
-    bool is_cyclic_directed(int v, std::vector<bool>& visited, int parent = 0);
+    bool is_cyclic_directed(int v, std::vector<bool>& visited, std::vector<bool>& rec_stack);
     void no_print_dfs(int v, std::vector<bool>& visited);
     void dfs(int v, std::vector<bool>& visited);
     void all_paths(int src, int dest, std::vector<bool>& visited,
         std::vector<int>& path, std::vector<std::vector<int>>& paths);
+    void topological_sort(int v, std::vector<bool>& visited, std::stack<int>& on_stack);
 };
 
 #include "GraphImpl.hpp"
