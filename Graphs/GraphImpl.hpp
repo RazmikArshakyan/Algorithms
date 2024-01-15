@@ -254,33 +254,68 @@ inline bool Graph::is_cyclic_undirected(int v, std::vector<bool> &visited, int p
     return false;
 }
 
-inline bool Graph::is_cyclic_directed(int v, std::vector<bool> &visited, int parent)
+inline bool Graph::is_cyclic_directed(int v, std::vector<bool> &visited, std::vector<bool>& rec_stack)
 {
     visited[v] = true;
-    //visited[parent] = false;
+    rec_stack[v] = true;
 
     for (auto vertex : adjacency_list[v]) {
-        if (!visited[vertex]) {
-            if (is_cyclic_directed(vertex, visited, v))
-                return true;
-        }
-        else  {
-            if (parent != vertex)
-                return true;
-        }
+        if (!visited[vertex] && is_cyclic_directed(vertex, visited, rec_stack))
+            return true;
+        else if (rec_stack[vertex])
+            return true;
     }
-
+    
+    rec_stack[v] = false;
     return false;
 }
 
 inline bool Graph::is_cyclic_undirected()
 {
     std::vector<bool> visited(vertices, false);
+    
     return is_cyclic_undirected(0, visited);
 }
 
 inline bool Graph::is_cyclic_directed()
 {
     std::vector<bool> visited(vertices, false);
-    return is_cyclic_directed(0, visited);
+    std::vector<bool> rec_stack(vertices, false);
+
+    return is_cyclic_directed(0, visited, rec_stack);
+}
+
+inline std::vector<int> Graph::topological_sort()
+{
+    if (is_cyclic_directed()) {
+        std::cout << "Can't be sorted topologically\n";
+        return {};
+    }
+
+    std::vector<bool> visited(vertices, false);
+    std::stack<int> stk;
+
+    for (int i = 0; i < vertices; ++i)
+        if (!visited[i])
+            topological_sort(i, visited, stk);
+
+    std::vector<int> topological_order;
+    while (!stk.empty()) {
+        int val  = stk.top();
+        stk.pop();
+        topological_order.push_back(val);
+    }
+
+    return topological_order;
+}
+
+inline void Graph::topological_sort(int v, std::vector<bool>& visited, std::stack<int>& on_stack)
+{
+    visited[v] = true;
+
+    for (auto vertex : adjacency_list[v])
+        if (!visited[vertex])
+            topological_sort(vertex,visited, on_stack);
+    
+    on_stack.push(v);
 }
