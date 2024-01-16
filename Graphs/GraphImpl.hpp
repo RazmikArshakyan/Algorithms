@@ -133,17 +133,16 @@ inline void Graph::dfs(int v, std::vector<bool> &visited)
             dfs(vertex, visited);
 }
 
-inline void Graph::transpose()
+inline Graph Graph::transpose()
 {
-    std::forward_list<int>* new_adjacency_list = new std::forward_list<int>[vertices];
+    Graph g(vertices);
     for (int i = 0; i < vertices; ++i) {
         for (int edge : adjacency_list[i]) {
-            new_adjacency_list[edge].push_front(i);
+            g.add_edge(edge, i);
         }
     }
-    delete[] adjacency_list;
 
-    adjacency_list = new_adjacency_list;
+    return g;
 }
 
 inline std::vector<int> Graph::shortest_path(int src, int dest)
@@ -318,4 +317,140 @@ inline void Graph::topological_sort(int v, std::vector<bool>& visited, std::stac
             topological_sort(vertex,visited, on_stack);
     
     on_stack.push(v);
+}
+
+inline int Graph::kahns_has_cycle(const std::vector<int> &indegree)
+{
+    int ctr = 0;
+    for (auto num : indegree)
+        if (num == 0)
+            ctr++;
+    
+    return ctr;
+}
+
+inline std::vector<int> Graph::kahns_algorithm()
+{
+    std::vector<int> indegree(vertices);
+
+    for (int i = 0; i < vertices; ++i) 
+        for (auto vertex : adjacency_list[i]) 
+            ++indegree[vertex];
+
+    if (kahns_has_cycle(indegree) == 0) {
+        std::cout << "Graph has cycle, so can't be sorted in topological order\n";
+        return {};
+    }
+
+    std::queue<int> q;
+    for (int i = 0; i < vertices; ++i) 
+        if (indegree[i] == 0)
+            q.push(i);
+
+    std::vector<int> topological_order;
+    while (!q.empty()) {
+        auto v = q.front();
+        q.pop();
+        topological_order.push_back(v);
+
+        for (auto vertex : adjacency_list[v])
+            if (--indegree[vertex] == 0)
+                q.push(vertex);
+    }    
+    
+    return topological_order;
+}
+
+inline std::vector<std::vector<int>> Graph::brute_force_scc()
+{
+    std::vector<bool> is_scc(vertices, false);
+
+    std::vector<std::vector<int>> sccs;
+    for (int i = 0; i < vertices; ++i) {
+        if (!is_scc[i]) {
+            std::vector<int> scc;
+            is_scc[i] = true;
+            scc.push_back(i);
+
+            for (int j = i + 1; j < vertices; ++j) {
+                if (is_path(i, j) && is_path(j, i)) {
+                    is_scc[j] = true;
+                    scc.push_back(j);
+                }
+            }
+
+            sccs.push_back(scc);
+        }
+    }
+    return sccs;
+}
+
+inline std::vector<std::vector<int>> Graph::kosaraju_scc()
+{
+    std::vector<bool> visited(vertices, false);
+    std::stack<int> stk;
+   
+    for (int i = 0; i < vertices; ++i)
+        if (!visited[i])
+            dfs_kosaraju(i, visited, stk);
+    
+    Graph graph_transpose = this->transpose();
+
+    std::fill(visited.begin(), visited.end(), false);
+
+    std::vector<std::vector<int>> sccs;
+    while (!stk.empty()) {
+        auto vertex = stk.top();
+        stk.pop();
+
+        if (!visited[vertex]) {
+            std::vector<int> scc;
+            graph_transpose.dfs_kosaraju(vertex, visited, scc);
+
+            sccs.push_back(scc);
+        }
+    } 
+
+    return sccs;
+}
+
+inline void Graph::dfs_kosaraju(int v, std::vector<bool>& visited, std::vector<int>& scc)
+{
+    visited[v] = true;
+
+    for (auto vertex : adjacency_list[v]) 
+        if (!visited[vertex])
+            dfs_kosaraju(vertex, visited, scc);
+
+    scc.push_back(v);
+}
+
+inline void Graph::dfs_kosaraju(int v, std::vector<bool>& visited, std::stack<int>& stk)
+{
+    visited[v] = true;
+
+    for (auto vertex : adjacency_list[v]) 
+        if (!visited[vertex])
+            dfs_kosaraju(vertex, visited, stk);
+
+    stk.push(v);    
+}
+
+inline bool Graph::dfs_scc(int src, int dest, std::vector<bool> &visited)
+{
+    if (src == dest)
+        return true;
+
+    visited[src] = true;
+    for (auto vertex : adjacency_list[src])
+        if (!visited[vertex])
+            if (dfs_scc(vertex, dest, visited))
+                return true;
+    return false;
+}
+
+inline bool Graph::is_path(int src, int dest)
+{
+    std::vector<bool> visited(vertices, false);
+    return dfs_scc(src, dest, visited);
 }
