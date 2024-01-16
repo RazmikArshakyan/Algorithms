@@ -18,7 +18,7 @@ public:
     void bfs(int v);
     void dfs(int v);
     void dfs_it(int v);
-    void transpose();
+    Graph transpose();
     std::vector<int> shortest_path(int src, int dest);
     int count_nodes(int src, int level);
     std::vector<std::vector<int>> all_paths(int src, int dest);
@@ -26,12 +26,16 @@ public:
     bool is_cyclic_undirected();
     bool is_cyclic_directed();
     std::vector<int> topological_sort();
+    std::vector<int> kahns_algorithm();
+    std::vector<std::vector<int>> brute_force_scc();
+    std::vector<std::vector<int>> kosaraju_scc();
 
 private:
     int vertices;
     std::forward_list<int>* adjacency_list;
-    bool** adjacency_matrix;  
+    bool** adjacency_matrix;
 
+    int kahns_has_cycle(const std::vector<int>& indegree);
     bool is_cyclic_undirected(int v, std::vector<bool>& visited, int parent = 0);
     bool is_cyclic_directed(int v, std::vector<bool>& visited, std::vector<bool>& rec_stack);
     void no_print_dfs(int v, std::vector<bool>& visited);
@@ -39,6 +43,10 @@ private:
     void all_paths(int src, int dest, std::vector<bool>& visited,
         std::vector<int>& path, std::vector<std::vector<int>>& paths);
     void topological_sort(int v, std::vector<bool>& visited, std::stack<int>& on_stack);
+    bool dfs_scc(int src, int dest, std::vector<bool>& visited);
+    bool is_path(int src, int dest);
+    void dfs_kosaraju(int v, std::vector<bool>& visited, std::vector<int>& scc);
+    void dfs_kosaraju(int v, std::vector<bool>& visited, std::stack<int>& stk);
 };
 
 #include "GraphImpl.hpp"
