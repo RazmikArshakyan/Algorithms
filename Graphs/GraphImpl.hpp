@@ -25,11 +25,11 @@ inline void Graph::add_edge(int u, int w)
 {
     // for adjacency_list
     adjacency_list[u].push_front(w);
-    // adjacency_list[w].push_front(u); // for undirected graphs
+    adjacency_list[w].push_front(u); // for undirected graphs
 
     // for adjacency_matrix
     adjacency_matrix[u][w] = true;
-    adjacency_matrix[w][u] = true; // for undirected graphs
+    // adjacency_matrix[w][u] = true; // for undirected graphs
 }
 
 inline void Graph::print_adj_list() const
@@ -147,13 +147,39 @@ inline Graph Graph::transpose()
 
 inline std::vector<int> Graph::shortest_path(int src, int dest)
 {
-    std::vector<std::vector<int>> paths = all_paths(src, dest);
-    std::vector<int> path = paths[0];
-    for (auto p : paths) 
-        if (p.size() < path.size())
-            path = p;
-            
-    return path;
+    if (src == dest) 
+        return {};
+
+    std::vector<bool> visited(vertices, false);
+    std::vector<int> parent(vertices, -1);
+
+    std::queue<int> q;
+    q.push(src);
+    visited[src] = true;
+
+    while (!q.empty()) {
+        auto v = q.front();
+        q.pop();
+
+        if (v == dest)
+            break; 
+        for (auto vertex : adjacency_list[v]) {
+            if (!visited[vertex]) {
+                q.push(vertex);
+                parent[vertex] = v;
+                visited[vertex] = true; 
+            }
+        }
+    }
+
+    std::vector<int> shortest_path;
+    int curr = dest;
+    while (curr != -1) {
+        shortest_path.insert(shortest_path.begin(), curr);
+        curr = parent[curr];
+    }
+
+    return shortest_path;
 }
 
 inline int Graph::count_nodes(int src, int level)
