@@ -25,7 +25,7 @@ inline void Graph::add_edge(int u, int w)
 {
     // for adjacency_list
     adjacency_list[u].push_front(w);
-    adjacency_list[w].push_front(u); // for undirected graphs
+    // adjacency_list[w].push_front(u); // for undirected graphs
 
     // for adjacency_matrix
     adjacency_matrix[u][w] = true;
@@ -345,6 +345,16 @@ inline void Graph::topological_sort(int v, std::vector<bool>& visited, std::stac
     on_stack.push(v);
 }
 
+inline void Graph::dfs_ap(std::vector<bool>& visited, int removed, int curr)
+{
+    visited[curr] = true;
+
+    for (auto vertex : adjacency_list[curr]) 
+        if (vertex != removed) 
+            if (!visited[vertex])
+                dfs_ap(visited, removed, vertex);
+}
+
 inline int Graph::kahns_has_cycle(const std::vector<int> &indegree)
 {
     int ctr = 0;
@@ -438,6 +448,28 @@ inline std::vector<std::vector<int>> Graph::kosaraju_scc()
     } 
 
     return sccs;
+}
+
+inline std::vector<int> Graph::articulation_points()
+{
+    std::vector<int> aps;
+    for (int i = 0; i < vertices; ++i) {
+        int component = 0;
+        std::vector<bool> visited(vertices, false);
+        for (int j = 0; j < vertices; ++j) {
+            if (i != j) {
+                if (!visited[j]) {
+                    component++;
+                    dfs_ap(visited, i, j);
+                }
+            }
+        }
+
+        if (component > 1)
+            aps.push_back(i);
+    }
+
+    return aps;
 }
 
 inline void Graph::dfs_kosaraju(int v, std::vector<bool>& visited, std::vector<int>& scc)
