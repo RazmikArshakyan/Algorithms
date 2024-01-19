@@ -29,12 +29,14 @@ public:
     std::vector<int> kahns_algorithm();
     std::vector<std::vector<int>> brute_force_scc();
     std::vector<std::vector<int>> kosaraju_scc();
+    std::vector<int> articulation_points();
 
 private:
     int vertices;
     std::forward_list<int>* adjacency_list;
     bool** adjacency_matrix;
 
+    void dfs_ap(std::vector<bool>& visited, int removed, int curr);
     int kahns_has_cycle(const std::vector<int>& indegree);
     bool is_cyclic_undirected(int v, std::vector<bool>& visited, int parent = 0);
     bool is_cyclic_directed(int v, std::vector<bool>& visited, std::vector<bool>& rec_stack);
