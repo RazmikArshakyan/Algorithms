@@ -21,4 +21,66 @@ int main() {
     
     std::cout << g1.mst_prim(5) << std::endl;
     std::cout << g1.mst_kruskal() << std::endl;
+
+    // WGraph g2(6);
+    // g2.add_edge(0, 1, 5);
+    // g2.add_edge(0, 2, 3);
+    // g2.add_edge(1, 3, 6);
+    // g2.add_edge(1, 2, 2);
+    // g2.add_edge(2, 4, 4);
+    // g2.add_edge(2, 5, 2);
+    // g2.add_edge(2, 3, 7);
+    // g2.add_edge(3, 4, -1);
+    // g2.add_edge(4, 5, -2);
+
+    // std::vector<int> sssp = g2.sssp_dag(1);
+    // for (int i : sssp)
+    //     std::cout << i << " ";
+    // std::cout << std::endl;
+
+    WGraph g3(9);
+    g3.add_edge(0, 1, 4);
+    g3.add_edge(1, 2, 11);
+    g3.add_edge(2, 0, 8);
+    g3.add_edge(1, 3, 9);
+    g3.add_edge(3, 2, 7);
+    g3.add_edge(4, 1, 8);
+    g3.add_edge(3, 4, 2);
+    g3.add_edge(3, 5, 6);
+    g3.add_edge(5, 2, 1);
+    g3.add_edge(5, 4, 5);
+    g3.add_edge(4, 6, 4);
+    g3.add_edge(6, 5, 2);
+    g3.add_edge(4, 7, 7);
+    g3.add_edge(7, 6, 14);
+    g3.add_edge(7, 8, 9);
+    g3.add_edge(6, 8, 10);
+
+    std::vector<int> sssp1 = g3.sssp_dijkstra(0);
+    for (int i : sssp1)
+        std::cout << i << " ";
+    std::endl(std::cout);
+
+    WGraph g4(9);
+    g4.add_edge(0, 1, 4);
+    g4.add_edge(1, 2, 11);
+    g4.add_edge(2, 0, 8);
+    g4.add_edge(1, 3, 9);
+    g4.add_edge(3, 2, 7);
+    g4.add_edge(4, 1, 8);
+    g4.add_edge(3, 4, 2);
+    g4.add_edge(3, 5, 6);
+    g4.add_edge(5, 2, 1);
+    g4.add_edge(5, 4, 5);
+    g4.add_edge(4, 6, 4);
+    g4.add_edge(6, 5, 2);
+    g4.add_edge(4, 7, 7);
+    g4.add_edge(7, 6, 14);
+    g4.add_edge(7, 8, 9);
+    g4.add_edge(6, 8, 10);
+
+    std::vector<int> sssp2 = g4.sssp_bellman_ford(0);
+    for (int i : sssp1)
+        std::cout << i << " ";
+    std::endl(std::cout);
 }
