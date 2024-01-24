@@ -5,6 +5,7 @@
 #include <vector>
 #include <queue>
 #include <algorithm>
+#include <limits>
 #include "DisjointSets/DisjointSet.hpp"
 
 class WGraph {
@@ -14,6 +15,10 @@ public:
     void add_edge(int u, int v, int w);
     int mst_prim(int src);
     int mst_kruskal();
+    std::vector<int> top_sort();
+    std::vector<int> sssp_dag(int src);
+    std::vector<int> sssp_dijkstra(int src);
+    std::vector<int> sssp_bellman_ford(int src);
 
 private: 
     int vertices;
