@@ -36,9 +36,8 @@ inline void Graph::print_adj_list() const
 {
     for (int i = 0; i < vertices; ++i) {
         std::cout << "Vertex " << i << " - ";
-        for (int edge : adjacency_list[i]) {
+        for (int edge : adjacency_list[i])
             std::cout << edge << " ";
-        }
         std::cout << std::endl;
     }
 }
@@ -53,9 +52,8 @@ inline void Graph::print_adj_matrix() const
         
     for (int i = 0; i < vertices; ++i) {
         std::cout << i << " : ";
-        for (int j = 0; j < vertices; ++j) {
+        for (int j = 0; j < vertices; ++j) 
             std::cout << adjacency_matrix[i][j] << " ";
-        }
         std::cout << std::endl;
     }
 }
@@ -84,7 +82,7 @@ inline void Graph::bfs(int v)
 
 inline void Graph::dfs(int v)
 {
-    std::vector<bool> visited;
+    std::vector<bool> visited(vertices, false);
     dfs(v, visited);
 }
 
@@ -112,10 +110,8 @@ inline void Graph::dfs_it(int v)
 
 inline void Graph::no_print_dfs(int v, std::vector<bool> &visited)
 {
-    if (visited.empty())
-        visited = std::vector<bool>(v, false);
-    
     visited[v] = true;
+
     for (auto vertex : adjacency_list[v]) 
         if (!visited[vertex])
             no_print_dfs(vertex, visited);
@@ -123,11 +119,9 @@ inline void Graph::no_print_dfs(int v, std::vector<bool> &visited)
 
 inline void Graph::dfs(int v, std::vector<bool> &visited)
 {
-    if (visited.empty())
-        visited = std::vector<bool>(v, false);
-    
     visited[v] = true;
     std::cout << v << " ";
+
     for (auto vertex : adjacency_list[v])
         if (!visited[vertex]) 
             dfs(vertex, visited);
@@ -136,11 +130,9 @@ inline void Graph::dfs(int v, std::vector<bool> &visited)
 inline Graph Graph::transpose()
 {
     Graph g(vertices);
-    for (int i = 0; i < vertices; ++i) {
-        for (int edge : adjacency_list[i]) {
+    for (int i = 0; i < vertices; ++i) 
+        for (int edge : adjacency_list[i]) 
             g.add_edge(edge, i);
-        }
-    }
 
     return g;
 }
@@ -163,6 +155,7 @@ inline std::vector<int> Graph::shortest_path(int src, int dest)
 
         if (v == dest)
             break; 
+            
         for (auto vertex : adjacency_list[v]) {
             if (!visited[vertex]) {
                 q.push(vertex);
@@ -192,8 +185,7 @@ inline int Graph::count_nodes(int src, int level)
 
     int count = 0;
     while (!q.empty()) {
-        int curr_vertex = q.front().first;
-        int curr_level = q.front().second;
+        auto[curr_vertex, curr_level] = q.front();
         q.pop();
 
         if (curr_level == level)
@@ -206,16 +198,12 @@ inline int Graph::count_nodes(int src, int level)
             }
         }
     }
-
     return count;
 }
 
 inline void Graph::all_paths(int src, int dest, std::vector<bool>& visited,
     std::vector<int>& path, std::vector<std::vector<int>>& paths)
 {
-    if (visited.empty())
-        visited = std::vector<bool>(vertices, false);
-
     if (visited[src])
        return;
     
@@ -240,7 +228,7 @@ inline std::vector<std::vector<int>> Graph::all_paths(int src, int dest)
 {
     std::vector<std::vector<int>> paths;
     std::vector<int> path;
-    std::vector<bool> visited;
+    std::vector<bool> visited(vertices, false);
     all_paths(src, dest, visited, path, paths);
     
     return paths;
@@ -257,7 +245,6 @@ inline int Graph::count_of_connected_components()
             count++;
         }
     }
-
     return count;
 }
 
@@ -275,7 +262,6 @@ inline bool Graph::is_cyclic_undirected(int v, std::vector<bool> &visited, int p
                 return true;
         }
     }
-
     return false;
 }
 
