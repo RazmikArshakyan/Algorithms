@@ -38,49 +38,75 @@ int main() {
     //     std::cout << i << " ";
     // std::cout << std::endl;
 
-    WGraph g3(9);
-    g3.add_edge(0, 1, 4);
-    g3.add_edge(1, 2, 11);
-    g3.add_edge(2, 0, 8);
-    g3.add_edge(1, 3, 9);
-    g3.add_edge(3, 2, 7);
-    g3.add_edge(4, 1, 8);
-    g3.add_edge(3, 4, 2);
-    g3.add_edge(3, 5, 6);
-    g3.add_edge(5, 2, 1);
-    g3.add_edge(5, 4, 5);
-    g3.add_edge(4, 6, 4);
-    g3.add_edge(6, 5, 2);
-    g3.add_edge(4, 7, 7);
-    g3.add_edge(7, 6, 14);
-    g3.add_edge(7, 8, 9);
-    g3.add_edge(6, 8, 10);
+    // WGraph g3(9);
+    // g3.add_edge(0, 1, 4);
+    // g3.add_edge(1, 2, 11);
+    // g3.add_edge(2, 0, 8);
+    // g3.add_edge(1, 3, 9);
+    // g3.add_edge(3, 2, 7);
+    // g3.add_edge(4, 1, 8);
+    // g3.add_edge(3, 4, 2);
+    // g3.add_edge(3, 5, 6);
+    // g3.add_edge(5, 2, 1);
+    // g3.add_edge(5, 4, 5);
+    // g3.add_edge(4, 6, 4);
+    // g3.add_edge(6, 5, 2);
+    // g3.add_edge(4, 7, 7);
+    // g3.add_edge(7, 6, 14);
+    // g3.add_edge(7, 8, 9);
+    // g3.add_edge(6, 8, 10);
 
-    std::vector<int> sssp1 = g3.sssp_dijkstra(0);
-    for (int i : sssp1)
-        std::cout << i << " ";
-    std::endl(std::cout);
+    // std::vector<int> sssp1 = g3.sssp_dijkstra(0);
+    // for (int i : sssp1)
+    //     std::cout << i << " ";
+    // std::endl(std::cout);
 
-    WGraph g4(9);
-    g4.add_edge(0, 1, 4);
-    g4.add_edge(1, 2, 11);
-    g4.add_edge(2, 0, 8);
-    g4.add_edge(1, 3, 9);
-    g4.add_edge(3, 2, 7);
-    g4.add_edge(4, 1, 8);
-    g4.add_edge(3, 4, 2);
-    g4.add_edge(3, 5, 6);
-    g4.add_edge(5, 2, 1);
-    g4.add_edge(5, 4, 5);
-    g4.add_edge(4, 6, 4);
-    g4.add_edge(6, 5, 2);
-    g4.add_edge(4, 7, 7);
-    g4.add_edge(7, 6, 14);
-    g4.add_edge(7, 8, 9);
-    g4.add_edge(6, 8, 10);
+    // WGraph g4(9);
+    // g4.add_edge(0, 1, 4);
+    // g4.add_edge(1, 2, 11);
+    // g4.add_edge(2, 0, 8);
+    // g4.add_edge(1, 3, 9);
+    // g4.add_edge(3, 2, 7);
+    // g4.add_edge(4, 1, 8);
+    // g4.add_edge(3, 4, 2);
+    // g4.add_edge(3, 5, 6);
+    // g4.add_edge(5, 2, 1);
+    // g4.add_edge(5, 4, 5);
+    // g4.add_edge(4, 6, 4);
+    // g4.add_edge(6, 5, 2);
+    // g4.add_edge(4, 7, 7);
+    // g4.add_edge(7, 6, 14);
+    // g4.add_edge(7, 8, 9);
+    // g4.add_edge(6, 8, 10);
 
-    std::vector<int> sssp2 = g4.sssp_bellman_ford(0);
-    for (int i : sssp1)
+    // std::vector<int> sssp2 = g4.sssp_bellman_ford(0);
+    // for (int i : sssp2)
+    //     std::cout << i << " ";
+    // std::endl(std::cout);
+
+    // WGraph g5(6);
+    // g5.add_edge(0, 1, 5);
+    // g5.add_edge(1, 2, 1);
+    // g5.add_edge(1, 3, 2);
+    // g5.add_edge(3, 4, 2);
+    // g5.add_edge(2, 5, 1);
+    // g5.add_edge(4, 5, -3);
+    // g5.add_edge(5, 3, -1);
+
+    // std::vector<int> sssp3 = g5.sssp_bellman_ford(0);
+    // for (int i : sssp3)
+    //     std::cout << i << " ";
+    // std::endl(std::cout);
+
+    // in this example Dijkstra gave wrong sssp
+    // also this example shows why we need to relaxe n - 1 times
+    // because after just one iteration we get 2 as a response, but after 2nd iteration which was n - 1th we get the right response
+    WGraph g6(3);
+    g6.add_edge(0, 1, 2);
+    g6.add_edge(0, 2, 3);
+    g6.add_edge(2, 1, -2);
+    std::vector<int> sssp4 = g6.sssp_bellman_ford(0);
+    for (int i : sssp4)
         std::cout << i << " ";
     std::endl(std::cout);
 }
