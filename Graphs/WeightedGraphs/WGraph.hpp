@@ -13,12 +13,12 @@ public:
     WGraph(int vertices);
     ~WGraph() = default;
     void add_edge(int u, int v, int w);
-    int mst_prim(int src);
+    int mst_prim(int u);
     int mst_kruskal();
     std::vector<int> top_sort();
-    std::vector<int> sssp_dag(int src);
-    std::vector<int> sssp_dijkstra(int src);
-    std::vector<int> sssp_bellman_ford(int src);
+    std::vector<int> sssp_dag(int u);
+    std::vector<int> sssp_dijkstra(int u);
+    std::vector<int> sssp_bellman_ford(int u);
 
 private: 
     int vertices;
