@@ -11,14 +11,14 @@ inline void WGraph::add_edge(int u, int v, int w)
     // adjacency_list[v].push_back({u, w}); // for undirected graphs
 }
 
-inline int WGraph::mst_prim(int src)
+inline int WGraph::mst_prim(int u)
 {
     int total = 0;
     std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>,
         std::greater<std::pair<int, int>>> pq;
     std::vector<bool> visited(vertices, false);
 
-    pq.push({0, src});
+    pq.push({0, u});
     while (!pq.empty()) {
         auto[weight, vertex] = pq.top();
 
@@ -81,12 +81,12 @@ inline std::vector<int> WGraph::top_sort()
     return {};
 }
 
-inline std::vector<int> WGraph::sssp_dag(int src)
+inline std::vector<int> WGraph::sssp_dag(int u)
 {
     std::vector<int> dist(vertices, INT_MAX);
     
     auto sorted = top_sort();
-    dist[src] = 0;
+    dist[u] = 0;
 
     for (auto elem : sorted)
         if (dist[elem] != INT_MAX)
@@ -96,15 +96,15 @@ inline std::vector<int> WGraph::sssp_dag(int src)
     return dist;
 }
 
-inline std::vector<int> WGraph::sssp_dijkstra(int src)
+inline std::vector<int> WGraph::sssp_dijkstra(int u)
 {
     std::vector<int> dist(vertices, INT_MAX);
     std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>,
         std::greater<std::pair<int, int>>> pq;
     std::vector<bool> visited(vertices, false);
 
-    dist[src] = 0;
-    pq.push({src, 0});
+    dist[u] = 0;
+    pq.push({u, 0});
 
     while (!pq.empty()) {
         auto[vertex, weight] = pq.top();
@@ -126,10 +126,10 @@ inline std::vector<int> WGraph::sssp_dijkstra(int src)
     return dist;
 }
 
-inline std::vector<int> WGraph::sssp_bellman_ford(int src)
+inline std::vector<int> WGraph::sssp_bellman_ford(int u)
 {
     std::vector<int> dist(vertices, INT_MAX);
-    dist[src] = 0;
+    dist[u] = 0;
 
     for (int i = 1; i < vertices; ++i) {
         for (int j = 0; j < vertices; ++j) {
