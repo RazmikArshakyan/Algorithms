@@ -298,11 +298,6 @@ inline bool Graph::is_cyclic_directed()
 
 inline std::vector<int> Graph::topological_sort()
 {
-    if (is_cyclic_directed()) {
-        std::cout << "Can't be sorted topologically\n";
-        return {};
-    }
-
     std::vector<bool> visited(vertices, false);
     std::stack<int> stk;
 
@@ -317,6 +312,10 @@ inline std::vector<int> Graph::topological_sort()
         topological_order.push_back(val);
     }
 
+    if (topological_order.size() != vertices) {
+        std::endl(std::cerr << "Has cycle");
+        return {};
+    }  
     return topological_order;
 }
 
