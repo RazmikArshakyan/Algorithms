@@ -6,5 +6,5 @@ def tower_of_hanoi(n, from_r, to_r, aux_r):
     tower_of_hanoi(n - 1, aux_r, to_r, from_r)
 
 if __name__ == '__main__':
-    n = 3
+    n = 4
     tower_of_hanoi(n, 'A', 'C', 'B')
