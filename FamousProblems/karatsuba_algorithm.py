@@ -24,5 +24,6 @@ def multiply(x, y):
     return p_1 * (1 << (2 * rh)) + (p_3 - p_2 - p_1) * (1 << rh) + p_2
 
 if __name__ == '__main__':
-    print(multiply("111", "111")) # should print 49
-    print(multiply("1100", "1010")) # should print 120
+    print(multiply("111", "111"))
+    print(multiply("1100", "1010"))
+
