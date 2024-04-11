@@ -7,13 +7,14 @@ int majority_element_helper(std::vector<int>& nums, int left, int right) {
     }
 
     int mid = (left + right) / 2;
-    int left_majority = majority_element_helper(nums, left, mid);
-    int right_majority = majority_element_helper(nums, mid + 1, right);
+    int left_majority = majority_element_helper(nums, left, mid); // T(n/2)
+    int right_majority = majority_element_helper(nums, mid + 1, right); // T(n/2)
 
     if (left_majority == right_majority) {
         return right_majority;
     }
 
+    /* O(n) */
     int left_count = 0, right_count = 0;
     for (int i = left; i <= right; ++i) {
         if (nums[i] == left_majority) {
@@ -24,6 +25,7 @@ int majority_element_helper(std::vector<int>& nums, int left, int right) {
         }
     }
 
+    /* O(1) */
     if (left_count > (right - left + 1) / 2) {
         return left_majority;
     }
@@ -33,6 +35,7 @@ int majority_element_helper(std::vector<int>& nums, int left, int right) {
     else {
         return INT_MIN;
     }
+    // T(n) = 2T(n/2) + O(n) + O(1) => T(n) = O(n * logn)
 }
 
 int majority_element(std::vector<int>& nums) {
